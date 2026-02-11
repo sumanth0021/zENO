@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>zENO Profile</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <a class="brand" href="index.html">zENO</a>
+
+    <div class="nav-right">
+      <button class="nav-btn" id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Your Profile</h2>
+
+    <div class="profile-box">
+      <h3 id="profileName">Loading...</h3>
+      <p id="profileEmail">Loading...</p>
+    </div>
+  </section>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("zenoUser"));
+
+    if (!user) {
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("profileName").textContent = "👤 " + user.name;
+      document.getElementById("profileEmail").textContent = "📧 " + user.email;
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("zenoUser");
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>

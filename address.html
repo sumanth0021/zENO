@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>zENO — Address</title>
+
+  <link rel="icon" href="zenologo02.png" type="image/png" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="address.css" />
+</head>
+
+<body>
+
+  <header class="navbar">
+    <a class="brand" href="index.html">zENO</a>
+
+    <div class="nav-right">
+      <a class="nav-btn" href="index.html#buy">Buy</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="page-card">
+      <div class="page-top">
+        <h1 class="page-title">Delivery Address</h1>
+        <p class="page-sub">Save your address for faster checkout 🍹</p>
+      </div>
+
+      <div class="info-box">
+        <h3> Service Available</h3>
+        <p>
+          For now we deliver only in <b>near garden ave street</b>.  
+          Next update we’ll expand more cities 
+        </p>
+      </div>
+
+      <div class="location-row">
+        <button class="soft-btn" id="useLocationBtn">📍 Use my location</button>
+        <button class="soft-btn ghost" id="clearLocationBtn">Reset</button>
+      </div>
+
+      <div class="map-box">
+        <iframe
+          id="mapFrame"
+          class="map-frame"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://maps.google.com/maps?q=Bengaluru&t=&z=13&ie=UTF8&iwloc=&output=embed">
+        </iframe>
+      </div>
+
+      <div id="addressFormWrap">
+        <form class="zeno-form" id="addressForm">
+
+    <div class="grid">
+      <div class="form-field">
+        <label>Full Name</label>
+        <input id="fullName" type="text" placeholder="Your name" required />
+      </div>
+
+      <div class="form-field">
+        <label>Phone</label>
+        <input id="phone" type="tel" placeholder="+91 XXXXX XXXXX" required />
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="form-field">
+        <label>City</label>
+        <input id="city" type="text" placeholder="Your city" required />
+      </div>
+
+      <div class="form-field">
+        <label>Pincode</label>
+        <input id="pincode" type="text" placeholder="5600XX" required />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Full Address</label>
+      <textarea id="address" placeholder="House no, street, area..." required></textarea>
+    </div>
+
+    <input type="hidden" id="lat" />
+    <input type="hidden" id="lng" />
+
+    <button class="btn primary big" type="submit">Save Address</button>
+    <p class="saved-msg" id="savedMsg"></p>
+        </form>
+      </div>
+
+
+<div class="saved-card" id="savedCard" style="display:none;">
+  <h3 class="saved-title">Saved Address ✔️</h3>
+
+  <div class="saved-line">
+    <span class="saved-label">Name</span>
+    <span class="saved-value" id="savedName">—</span>
+  </div>
+
+  <div class="saved-line">
+    <span class="saved-label">Phone</span>
+    <span class="saved-value" id="savedPhone">—</span>
+  </div>
+
+  <div class="saved-line">
+    <span class="saved-label">City</span>
+    <span class="saved-value" id="savedCity">—</span>
+  </div>
+
+  <div class="saved-line">
+    <span class="saved-label">Pincode</span>
+    <span class="saved-value" id="savedPincode">—</span>
+  </div>
+
+  <div class="saved-address-box" id="savedAddressText">—</div>
+
+  <button class="soft-btn" id="editAddressBtn">✏️ Edit Address</button>
+      </div>
+    </section>
+
+ <button id="continueBtn" type="button">Continue</button>
+
+  </main>
+ <script type="module" src="address.js"></script>
+
+
+</body>
+</html>

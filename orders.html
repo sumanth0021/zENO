@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>zENO - Orders</title>
+  <link rel="icon" href="zenologo02.png" type="image/png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header class="navbar">
+    <a class="brand" href="index.html">zENO</a>
+
+    <div class="nav-right">
+      <a class="nav-btn" href="index.html#buy">Buy</a>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Your Orders</h2>
+
+    <div class="ingredients-box" id="ordersBox">
+      <p style="opacity:0.8;">Loading orders...</p>
+    </div>
+  </section>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("zenoUser"));
+
+    if (!user) {
+      alert("Please login to see your orders.");
+      window.location.href = "index.html";
+    }
+
+    const ordersBox = document.getElementById("ordersBox");
+    const orders = JSON.parse(localStorage.getItem("zenoOrders")) || [];
+
+    if (orders.length === 0) {
+      ordersBox.innerHTML = `
+        <p style="opacity:0.8;">You have no orders yet.</p>
+        <a class="btn primary big" href="index.html#buy">Order Now</a>
+      `;
+    } else {
+      ordersBox.innerHTML = orders
+        .map((o, i) => {
+          const itemsText =
+            Array.isArray(o.items) && o.items.length
+              ? o.items.join(", ")
+              : (o.product || "Items unavailable");
+          const totalText = typeof o.total === "number" ? `Rs ${o.total}` : "Rs 0";
+          const timeText = o.time || "";
+          const statusText = o.status || "Confirmed";
+
+          return `
+            <div class="line">
+              <span>Order #${i + 1} - ${itemsText}</span>
+              <span>${statusText}</span>
+            </div>
+            <div class="line" style="opacity:0.7; font-size:12px;">
+              <span>${timeText}</span>
+              <span>${totalText}</span>
+            </div>
+          `;
+        })
+        .join("");
+    }
+  </script>
+
+</body>
+</html>

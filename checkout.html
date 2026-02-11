@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>zENO — Checkout</title>
+
+  <link rel="icon" href="zenologo02.png" type="image/png" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="checkout.css" />
+</head>
+
+<body>
+
+  <header class="navbar">
+    <a class="brand" href="index.html">zENO</a>
+  </header>
+
+  <main class="checkout-page">
+    <h2 class="checkout-title">Checkout</h2>
+
+    <div id="checkoutMain"></div>
+  </main>
+
+  <script>
+
+    const checkoutMain = document.getElementById("checkoutMain");
+
+    const products = [
+      {
+        id: "mango",
+        name: "zENO Mango Juice",
+        time: "10–15 min",
+        price: 60,
+        rating: "4.7",
+        reviews: "120",
+        desc: "Rich mango taste. Smooth + premium.",
+        img: "appleglass02.png"
+      },
+      {
+        id: "orange",
+        name: "zENO Orange Juice",
+        time: "10–15 min",
+        price: 55,
+        rating: "4.6",
+        reviews: "86",
+        desc: "Fresh citrus punch. Zero added sugar.",
+        img: "orangeglass02.png"
+      },
+      {
+        id: "mixed",
+        name: "zENO Mixed Fruit",
+        time: "10–15 min",
+        price: 65,
+        rating: "4.5",
+        reviews: "64",
+        desc: "Balanced blend. Every sip = happy.",
+        img: "appleandorangeglass02.png"
+      }
+    ];
+
+    const cart = { mango: 0, orange: 0, mixed: 0 };
+
+    function calcTotal() {
+      let total = 0;
+      products.forEach((p) => (total += cart[p.id] * p.price));
+      return total;
+    }
+
+      checkoutMain.innerHTML = `
+        <div class="product-list" id="productList"></div>
+
+        <div class="checkout-summary">
+          <div class="sum-line">
+            <span>Delivery</span>
+            <b>Free</b>
+          </div>
+
+          <div class="sum-line">
+            <span>Total</span>
+            <b id="totalPrice">₹0</b>
+          </div>
+
+          <button class="btn primary big" id="placeOrderBtn" style="width:100%; margin-top:14px;">
+            Place Order
+          </button>
+        </div>
+      `;
+
+      const productList = document.getElementById("productList");
+      const totalPrice = document.getElementById("totalPrice");
+      const placeOrderBtn = document.getElementById("placeOrderBtn");
+
+      function renderProducts() {
+        productList.innerHTML = products
+          .map(
+            (p) => `
+          <div class="p-card">
+            <div class="p-meta">
+              <div class="p-top">
+                <span class="p-time">${p.time} ⚡</span>
+              </div>
+
+              <div class="p-name">${p.name}</div>
+              <div class="p-price">₹${p.price}</div>
+
+              <div class="p-rating">
+                ⭐ ${p.rating} (${p.reviews})
+              </div>
+
+              <div class="p-desc">${p.desc}</div>
+            </div>
+
+            <div class="p-imageBox">
+              <img src="${p.img}" alt="${p.name}" />
+
+              <div class="qty-pill">
+                <button data-id="${p.id}" data-type="minus">−</button>
+                <span id="qty-${p.id}">${cart[p.id]}</span>
+                <button data-id="${p.id}" data-type="plus">+</button>
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+
+        totalPrice.textContent = "₹" + calcTotal();
+      }
+
+      renderProducts();
+
+      productList.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+
+        const id = btn.dataset.id;
+        const type = btn.dataset.type;
+
+        if (type === "plus") cart[id]++;
+        if (type === "minus" && cart[id] > 0) cart[id]--;
+
+        document.getElementById("qty-" + id).textContent = cart[id];
+        totalPrice.textContent = "₹" + calcTotal();
+      });
+
+      placeOrderBtn.addEventListener("click", () => {
+        const total = calcTotal();
+
+        if (total === 0) {
+          alert("⚠️ Please add at least 1 juice to place order!");
+          return;
+        }
+
+        window.location.href = "address.html";
+
+        const selectedItems = products
+          .filter((p) => cart[p.id] > 0)
+          .map((p) => `${p.name} x${cart[p.id]}`);
+
+        const orders = JSON.parse(localStorage.getItem("zenoOrders")) || [];
+
+        orders.push({
+          items: selectedItems,
+          total: total,
+          status: "✅ Confirmed",
+          time: new Date().toLocaleString(),
+        });
+
+        localStorage.setItem("zenoOrders", JSON.stringify(orders));
+        const successOverlay = document.getElementById("successOverlay");
+        successOverlay.classList.add("show");
+
+        setTimeout(() => {
+          window.location.href = "orders.html";
+        }, 5000);
+
+      });
+  </script>
+
+<!-- <div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="tick-wrap">
+      <svg class="tick" viewBox="0 0 52 52">
+        <circle class="tick-circle" cx="26" cy="26" r="24" fill="none"/>
+        <path class="tick-check" fill="none" d="M14 27 L22 35 L38 18"/>
+      </svg>
+    </div>
+
+    <h2>Order Placed</h2>
+    <p>Your zENO juice is on the way </p>
+  </div>
+</div> -->
+
+</body>
+</html>
