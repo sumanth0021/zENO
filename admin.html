@@ -55,6 +55,14 @@
     }
   </style>
 </head>
+   <script>
+  const password = prompt("Enter Admin Password:");
+
+  if (password !== "welcomesir@123") {
+    alert("Access Denied");
+    window.location.href = "index.html";
+  }
+</script>
 <body>
 
   <h1>zENO Orders Dashboard</h1>
@@ -64,3 +72,4 @@
   <script type="module" src="admin.js"></script>
 </body>
 </html>
+
