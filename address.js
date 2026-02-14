@@ -315,6 +315,16 @@ showSuccessPopup();
 // =========================
 
 function showSuccessPopup() {
+
+  const sound = document.getElementById("successSound");
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+  }
+
+if (sound) {
+  sound.play();
+}
   const overlay = document.createElement("div");
   overlay.style.position = "fixed";
   overlay.style.inset = "0";
@@ -405,6 +415,7 @@ function showSuccessPopup() {
     window.location.href = "index.html";
   }, 4000);
 }
+
 
 
 
