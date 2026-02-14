@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>zENO Admin Dashboard</title>
   <link rel="stylesheet" href="style.css">
+  
   <style>
     body {
       padding: 40px;
@@ -53,23 +54,33 @@
       background: #0071e3;
       color: white;
     }
+
+    .delivered {
+  background: #cce5ff;
+  color: #004085;
+}
+
   </style>
 </head>
-   <script>
+
+  <!-- <script>
   const password = prompt("Enter Admin Password:");
 
   if (password !== "welcomesir@123") {
     alert("Access Denied");
     window.location.href = "index.html";
   }
-</script>
+</script> -->
 <body>
-
   <h1>zENO Orders Dashboard</h1>
 
+    <div id="summary" style="margin-bottom:30px; display:flex; gap:20px; flex-wrap:wrap;"></div>
+
   <div id="ordersContainer"></div>
+
+
+
 
   <script type="module" src="admin.js"></script>
 </body>
 </html>
-
