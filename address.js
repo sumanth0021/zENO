@@ -128,6 +128,15 @@ if (useLocationBtn) {
         latField.value = lat;
         lngField.value = lng;
 
+        const existing = JSON.parse(localStorage.getItem("zenoAddress")) || {};
+
+localStorage.setItem("zenoAddress", JSON.stringify({
+  ...existing,
+  lat,
+  lng
+}));
+
+
         updateMap(lat, lng);
 
         const distance = getDistanceInKm(STORE_LAT, STORE_LNG, lat, lng);
@@ -151,15 +160,27 @@ if (useLocationBtn) {
 
 if (clearLocationBtn) {
   clearLocationBtn.addEventListener("click", () => {
+
+    // Clear only location fields
     latField.value = "";
     lngField.value = "";
 
+    // Remove lat/lng from localStorage but keep other data
+    const existing = JSON.parse(localStorage.getItem("zenoAddress")) || {};
+
+    delete existing.lat;
+    delete existing.lng;
+
+    localStorage.setItem("zenoAddress", JSON.stringify(existing));
+
+    // Reset map to store
     updateMap(STORE_LAT, STORE_LNG);
 
-    savedMsg.textContent = "✔️Location reset!";
+    savedMsg.textContent = "";
     useLocationBtn.textContent = "📍 Use my location";
   });
 }
+
 
 
 if (form) {
@@ -205,21 +226,25 @@ if (form) {
 // =========================
 // CONTINUE BUTTON LOGIC
 // =========================
-
 const continueBtn = document.getElementById("continueBtn");
 
 if (continueBtn) {
-  continueBtn.addEventListener("click", () => {
-    // 1️⃣ Get saved address
+  continueBtn.addEventListener("click", async () => {
+
     const addressData = JSON.parse(localStorage.getItem("zenoAddress"));
+    const orders = JSON.parse(localStorage.getItem("zenoOrders")) || [];
 
     if (!addressData) {
-      alert("⚠️ Please save your address before continuing.");
-      return;
-    }
+  alert("⚠️ Please save your address before continuing.");
+  return;
+}
 
-    // 2️⃣ Get cart / order data (from checkout)
-    const orders = JSON.parse(localStorage.getItem("zenoOrders")) || [];
+if (!addressData.lat || !addressData.lng) {
+  alert("⚠️ Please click 'Use my location' before continuing.");
+  return;
+}
+
+
 
     if (orders.length === 0) {
       alert("⚠️ No order found. Please add items first.");
@@ -228,10 +253,9 @@ if (continueBtn) {
 
     const latestOrder = orders[orders.length - 1];
 
-    // 3️⃣ Build final order object
     const finalOrder = {
       customer: {
-        name: addressData.fullName,
+        fullName: addressData.fullName,
         phone: addressData.phone,
         city: addressData.city,
         pincode: addressData.pincode,
@@ -243,36 +267,45 @@ if (continueBtn) {
         items: latestOrder.items,
         total: latestOrder.total,
         time: new Date().toLocaleString(),
-        status: "Pending Confirmation",
       },
     };
 
-    // 4️⃣ Save final order (temporary – DB later)
-  // Save to Supabase
-(async () => {
-  const { error } = await supabase
-    .from("orders")
-    .insert([
-      {
-        customer: finalOrder.customer,
-        order_data: finalOrder.order,
-        status: "pending"
-      }
-    ]);
+    try {
+      const { error } = await supabase
+        .from("orders")
+        .insert([
+          {
+            customer: finalOrder.customer,
+            order_data: finalOrder.order,
+            status: "pending"
+          }
+        ]);
 
-  if (error) {
-    alert("❌ Failed to place order. Try again.");
-    console.error(error);
-    return;
-  }
+      if (error) {
+  console.error(error);
+  alert("❌ Failed to place order.");
+  return;
+}
 
-  showSuccessPopup();
-})();
+// 🔔 Trigger Telegram
+await fetch("https://bbvstwqpsskiscgkquxs.functions.supabase.co/rapid-service", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    customer: finalOrder.customer,
+    order_data: finalOrder.order
+  })
+});
+
+showSuccessPopup();
 
 
-    // 5️⃣ Show success popup
-    showSuccessPopup();
-
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      alert("Something went wrong.");
+    }
 
   });
 }
