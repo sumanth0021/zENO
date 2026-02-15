@@ -240,4 +240,7 @@
   .p-imageBox{
     height: 220px;
   }
+    .p-imageBox img{
+    height: 260px;
+  }
 }
