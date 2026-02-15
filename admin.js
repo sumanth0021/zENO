@@ -1,4 +1,3 @@
-
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 const SUPABASE_URL = "https://bbvstwqpsskiscgkquxs.supabase.co";
@@ -112,10 +111,6 @@ window.deleteOrder = async function(id) {
     .from("orders")
     .delete()
     .eq("id", id);
-
-    
-
-
   loadOrders();
 };
 

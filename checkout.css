@@ -90,16 +90,13 @@
   color: #6e6e73;
 }
 
-
-
-
 .p-imageBox{
   position: relative;
   height: 300px;
   border-color: #1d1d1f;
   border-radius: 24px;
   overflow: hidden;
-  background: linear-gradient(to left, rgb(106, 58, 8), rgb(212, 212, 189));
+  background: linear-gradient(to , rgb(255, 255, 255), rgb(98, 92, 92));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -140,6 +137,8 @@
   color: #1d1d1f;
 }
 
+
+
 .qty-pill button:hover{
   color: #0071e3;
 }
@@ -170,6 +169,16 @@
 .sum-line b{
   font-size: 18px;
   color: #1d1d1f;
+}
+
+.btn{
+    background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer
 }
 
 

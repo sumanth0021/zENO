@@ -109,7 +109,7 @@ const addReviewBtn = document.getElementById("addReviewBtn");
 
 if (addReviewBtn) {
   addReviewBtn.addEventListener("click", () => {
-    alert("🔥 porathu vada polaydi mone");
+    alert("Review option is opening soon for you guys..!");
   });
 }
 

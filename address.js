@@ -178,6 +178,7 @@ if (clearLocationBtn) {
 
     savedMsg.textContent = "";
     useLocationBtn.textContent = "📍 Use my location";
+
   });
 }
 
@@ -415,7 +416,6 @@ if (sound) {
     window.location.href = "index.html";
   }, 4000);
 }
-
 
 
 

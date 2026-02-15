@@ -5,19 +5,21 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-window.login = async function() {
+window.login = async function () {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  const errorMsg = document.getElementById("errorMsg");
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
-    password
+    password,
   });
 
   if (error) {
-    alert("Invalid login");
+    errorMsg.textContent = "Invalid login credentials";
     return;
   }
 
   window.location.href = "admin.html";
 };
+
