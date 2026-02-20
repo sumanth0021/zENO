@@ -22,6 +22,7 @@
     <div id="checkoutMain"></div>
   </main>
 
+  <script src="toast.js"></script>
   <script>
 
     const checkoutMain = document.getElementById("checkoutMain");
@@ -148,7 +149,7 @@
         const total = calcTotal();
 
         if (total === 0) {
-          alert("⚠️ Please add at least 1 juice to place order!");
+          showToast("⚠️ Please add at least 1 juice to place order!");
           return;
         }
 

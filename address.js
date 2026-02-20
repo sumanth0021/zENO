@@ -6,10 +6,9 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-
 const user = JSON.parse(localStorage.getItem("zenoUser"));
 if (user) {
-  alert("⚠️ Please login to add address.");
+  showToast("⚠️ Please login to add address.");
   window.location.href = "index.html";
 }
 
@@ -114,7 +113,7 @@ if (editAddressBtn) {
 if (useLocationBtn) {
   useLocationBtn.addEventListener("click", () => {
     if (!navigator.geolocation) {
-      alert("❌ GPS not supported in your browser.");
+      showToast("❌ GPS not supported in your browser.");
       return;
     }
 
@@ -151,7 +150,7 @@ localStorage.setItem("zenoAddress", JSON.stringify({
       },
       () => {
         useLocationBtn.textContent = "📍 Use my location";
-        alert("❌ Location permission denied!");
+        showToast("❌ Location permission denied!");
       }
     );
   });
@@ -192,14 +191,14 @@ if (form) {
     const userLng = parseFloat(lngField.value);
 
     // if (!userLat || !userLng) {
-    //   alert("⚠️ Please click 'Use my location' to check delivery availability.");
+    //   showToast("⚠️ Please click 'Use my location' to check delivery availability.");
     //   return;
     // }
 
     const distance = getDistanceInKm(STORE_LAT, STORE_LNG, userLat, userLng);
 
     if (distance > DELIVERY_RADIUS_KM) {
-      alert(
+      showToast(
         `❌ Sorry! Delivery not available.\n\n📍 You are ${distance.toFixed(
           1
         )} km away.\n✔️ We deliver only within ${DELIVERY_RADIUS_KM} km for now.`
@@ -221,7 +220,7 @@ if (form) {
 
     showSavedCard(data);
 
-    alert("✔️ Address saved successfully!");
+    showToast("✔️ Address saved successfully!");
   });
 }
 // =========================
@@ -236,19 +235,19 @@ if (continueBtn) {
     const orders = JSON.parse(localStorage.getItem("zenoOrders")) || [];
 
     if (!addressData) {
-  alert("⚠️ Please save your address before continuing.");
+  showToast("⚠️ Please save your address before continuing.");
   return;
 }
 
 if (!addressData.lat || !addressData.lng) {
-  alert("⚠️ Please click 'Use my location' before continuing.");
+  showToast("⚠️ Please click 'Use my location' before continuing.");
   return;
 }
 
 
 
     if (orders.length === 0) {
-      alert("⚠️ No order found. Please add items first.");
+      showToast("⚠️ No order found. Please add items first.");
       return;
     }
 
@@ -284,7 +283,7 @@ if (!addressData.lat || !addressData.lng) {
 
       if (error) {
   console.error(error);
-  alert("❌ Failed to place order.");
+  showToast("❌ Failed to place order.");
   return;
 }
 
@@ -305,7 +304,7 @@ showSuccessPopup();
 
     } catch (err) {
       console.error("Unexpected error:", err);
-      alert("Something went wrong.");
+      showToast("Something went wrong.");
     }
 
   });
@@ -416,6 +415,8 @@ if (sound) {
     window.location.href = "index.html";
   }, 4000);
 }
+// tost function in tost.js
+
 
 
 

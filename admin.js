@@ -11,7 +11,7 @@ if (!session) {
   window.location.href = "admin-login.html";
 }
 if (session.user.email !== "sumanth00121@gmail.com") {
-  alert("Access denied");
+  window.showToast("Access denied");
   await supabase.auth.signOut();
   window.location.href = "index.html";
 }

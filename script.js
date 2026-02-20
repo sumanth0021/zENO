@@ -109,7 +109,7 @@ const addReviewBtn = document.getElementById("addReviewBtn");
 
 if (addReviewBtn) {
   addReviewBtn.addEventListener("click", () => {
-    alert("Review option is opening soon for you guys..!");
+    showToast("Review option is opening soon for you guys..!");
   });
 }
 
@@ -125,7 +125,7 @@ window.addEventListener("load", () => {
 
   if (twitbutton) {
     twitbutton.addEventListener("click", () => {
-      alert("Not yet created, we will create soon 😊");
+      showToast("Not yet created, we will create soon 😊");
     });
   }
 });
@@ -255,7 +255,7 @@ if (supabaseClient && supabaseClient.auth) {
 }
 if (profileBtn) {
   profileBtn.addEventListener("click", (e) => {
-    alert("You can able to access your profile Soon 😌..");
+    showToast("You can able to access your profile Soon 😌..");
   });
 }
 
@@ -334,7 +334,7 @@ if (authForm) {
     e.preventDefault();
 
     if (!supabaseClient || !supabaseClient.auth) {
-      alert("Supabase client not initialized.");
+      showToast("Supabase client not initialized.");
       return;
     }
 
@@ -343,12 +343,12 @@ if (authForm) {
     const name = nameField ? nameField.value.trim() : "";
 
     if (isSignup && name.length < 2) {
-      alert("Enter your name properly 😄");
+      showToast("Enter your name properly 😄");
       return;
     }
 
     if (!email || !pass) {
-      alert("Email and password required ✅");
+      showToast("Email and password required ✅");
       return;
     }
 
@@ -373,10 +373,10 @@ if (authForm) {
         if (error) throw error;
 
         if (!data.session) {
-          alert("Check your email to confirm your account.");
+          showToast("Check your email to confirm your account.");
         } else {
           shouldClose = true;
-          alert("✅ Logged in successfully!");
+          showToast("✅ Logged in successfully!");
         }
       } else {
         const { error } = await supabaseClient.auth.signInWithPassword({
@@ -387,7 +387,7 @@ if (authForm) {
         if (error) throw error;
 
         shouldClose = true;
-        alert("✅ Logged in successfully!");
+        showToast("✅ Logged in successfully!");
       }
 
       if (shouldClose) {
@@ -396,7 +396,7 @@ if (authForm) {
       }
     } catch (err) {
       console.error("Auth error:", err);
-      alert(err.message || "Authentication failed.");
+      showToast(err.message || "Authentication failed.");
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
@@ -408,7 +408,7 @@ if (authForm) {
 
 if (forgotBtn) {
   forgotBtn.addEventListener("click", () => {
-    alert("🔐 Password reset feature coming soon!");
+    showToast("🔐 Password reset feature coming soon!");
   });
 }
 
@@ -428,7 +428,7 @@ if (logoutBtn) {
       }
     }
 
-    alert("✅ Logged out!");
+    showToast("✅ Logged out!");
 
     if (modalOverlay) modalOverlay.style.display = "flex";
     if (emailField) emailField.focus();
@@ -464,7 +464,7 @@ const googleBtn = document.getElementById("googleSignIn");
 if (googleBtn) {
   googleBtn.addEventListener("click", async () => {
     if (!supabaseClient || !supabaseClient.auth) {
-      alert("Supabase client not initialized.");
+      showToast("Supabase client not initialized.");
       return;
     }
 
@@ -477,7 +477,7 @@ if (googleBtn) {
 
     if (error) {
       console.error("Google Sign-In error:", error);
-      alert(error.message);
+      showToast(error.message);
     }
   });
 }

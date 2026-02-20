@@ -26,11 +26,12 @@
     </div>
   </section>
 
+  <script src="toast.js"></script>
   <script>
     const user = JSON.parse(localStorage.getItem("zenoUser"));
 
     if (!user) {
-      alert("Please login to see your orders.");
+      showToast("Please login to see your orders.");
       window.location.href = "index.html";
     }
 
